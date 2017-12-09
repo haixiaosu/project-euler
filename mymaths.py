@@ -1,3 +1,4 @@
+
 import math
 
 def get_primes(n):
@@ -71,3 +72,12 @@ def gcd(x, y):
     if y == 0:
         return x
     return gcd(y, x % y)
+
+def is_palindrome(x):
+    x_string = str(x)
+    length = len(x_string)
+    if length %2 == 1:
+        return False
+    first_half = x_string[:length/2]
+    second_half = x_string[length/2:]
+    return first_half[::-1] == second_half
