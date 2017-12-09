@@ -24,7 +24,12 @@ CH2 = 22
 CH3 = 36
 
 # Dice
-n = 6
+n = 4
+
+# We break the solution into two independent Markov chains:
+# One for moving between squares and one for keeping track of doubles.
+# Note that this isn't quite accurate because the doubles counter resets
+# if one is sent to jail.
 
 # Calculate probability of having rolled two doubles in a row.
 dice_prob_mat = numpy.array([[(n-1)/n, (n-1)/n, 1], [1/n, 0, 0], [0, 1/n, 0]])
@@ -34,7 +39,7 @@ doubles_prob = numpy.real(doubles_prob).astype(float)
 
 # Dice roll probabilities.
 prob_roll = numpy.array([1,2,3,4,5,6,5,4,3,2,1], dtype=float)
-#prob_roll = numpy.array([1,2,3,4,3,2,1], dtype=float)
+prob_roll = numpy.array([1,2,3,4,3,2,1], dtype=float)
 prob_roll[::2] -= doubles_prob[2]
 prob_roll /= n**2
 
@@ -80,5 +85,8 @@ for i in range(40):
     P[:,i] = end_vec
 eigvals, eigvecs = numpy.linalg.eig(P)
 probs = eigvecs[:,0]/numpy.sum(eigvecs[:,0])
-print(probs.argsort()[-3:][::-1])
-print(probs[JAIL], probs[E3], probs[GO])
+
+top_n = 3
+top_inds = probs.argsort()[-top_n:][::-1]
+for i in range(top_n):
+    print(top_inds[i], probs[top_inds[i]])
