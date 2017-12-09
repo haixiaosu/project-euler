@@ -1,5 +1,6 @@
 
 import math
+import itertools
 
 def get_primes(n):
     works = [True] * (n + 1)
@@ -23,6 +24,10 @@ def factorize(n, primes):
             factorization.append((p, num))
     return factorization
 
+
+def factorise(n):
+    return factorize(n, primes)
+    
 def generate_totient(n):
     totient_mem = [1] * (n + 1)
     primes = get_primes(math.floor(math.sqrt(n)))
@@ -81,3 +86,26 @@ def is_palindrome(x):
     first_half = x_string[:length/2]
     second_half = x_string[length/2:]
     return first_half[::-1] == second_half
+
+    
+def get_num_divisors(x):
+    factorised = factorise(x)
+    factorisation = []
+    for (x, y) in factorised:
+        factorisation.append([x] * y)
+    factors = sum(factorisation, [])
+    all_the_factors = []
+    for i in range(len(factors) + 1):
+        factor_list = list(itertools.combinations(factors, i))
+        all_the_factors.append(factor_list)
+    final_factors = dedup(sum(all_the_factors, []))
+    return len(final_factors)
+
+def dedup(list):
+    new_list = []
+    for i in list:
+        if i not in new_list:
+            new_list.append(i)
+    return new_list
+
+primes = get_primes(1000000)
