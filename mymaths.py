@@ -51,3 +51,23 @@ def totient_faster_hopefully(n, primes, totient_mem):
         result = n - 1
     totient_mem[n] = result
     return result
+    
+def is_permutation(x, y):
+    counts = [0] * 10
+    while x > 0:
+        digit = x % 10
+        counts[digit] += 1
+        x //= 10
+    while y > 0:
+        digit = y % 10
+        counts[digit] -= 1
+        y //= 10
+    for c in counts:
+        if c != 0:
+            return False
+    return True
+    
+def gcd(x, y):
+    if y == 0:
+        return x
+    return gcd(y, x % y)
